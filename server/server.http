@@ -1,0 +1,33 @@
+@server_HostAddress = http://localhost:5000
+
+GET {{server_HostAddress}}/api/records/
+Accept: application/json
+
+###
+
+GET {{server_HostAddress}}/api/records/options
+Accept: application/json
+
+###
+
+GET {{server_HostAddress}}/api/records/1
+Accept: application/json
+
+###
+
+PUT {{server_HostAddress}}/api/records/1
+Content-Type: application/json
+
+{
+	"name": "Website Redesign",
+	"category": "Project",
+	"status": "Completed",
+	"description": "Updated from server.http"
+}
+
+###
+
+DELETE {{server_HostAddress}}/api/records/1
+Accept: application/json
+
+###
