@@ -60,3 +60,10 @@ packages/
 # Local tooling caches
 .vs/
 
+#eod-desktop-app
+eod-desktop-app/__pycache__/
+eod-desktop-app/dist/
+eod-desktop-app/build/
+eod-desktop-app/.env
+eod-desktop-app/.env.*
+eod-desktop-app/generated-invoices/

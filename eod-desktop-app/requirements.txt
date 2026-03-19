@@ -1,0 +1,11 @@
+# Core dependencies
+tzdata
+reportlab
+tkcalendar
+
+# pyinstaller is used to build the standalone .exe (not needed at runtime).
+# pip install pyinstaller
+# pyinstaller --onefile --windowed --name "Training-Mailer" main.py
+
+# If you are on Python 3.8, also install:
+# backports.zoneinfo
