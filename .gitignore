@@ -66,4 +66,15 @@ eod-desktop-app/dist/
 eod-desktop-app/build/
 eod-desktop-app/.env
 eod-desktop-app/.env.*
+eod-desktop-app/..*
+eod-desktop-app/.venv/
+eod-desktop-app/.venv*
 eod-desktop-app/generated-invoices/
+PITC-VA-Mailer.app/*.*
+PITC-VA-Mailer.app/
+PITC-mailer/
+PITC-mailer/*.*
+
+# modern-mailer
+modern-mailer/
+.venv/

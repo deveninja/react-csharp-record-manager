@@ -77,6 +77,16 @@ If `.env` is not present or is incomplete, the app falls back to built-in defaul
 python main.py
 ```
 
+On macOS, prefer a Python build that includes `tkinter`. If you created a virtual environment from a Homebrew Python build without Tk support, recreate it from `/usr/bin/python3` or a python.org installer build.
+
+Recommended on macOS:
+
+```bash
+./run_mac.sh
+```
+
+This avoids shell aliases such as `py -> python3` that can bypass your virtual environment and crash at startup.
+
 ### Run the packaged app
 
 After building:
@@ -120,7 +130,15 @@ Values you edit in the form are also stored in `config.json` for future launches
 python -m PyInstaller --onefile --windowed --name "PITC-VA-Mailer" --hidden-import tzdata main.py
 ```
 
-This creates the exe in `dist/`.
+On Windows this creates a single `.exe` in `dist/`.
+
+On macOS, use windowed `onedir` output instead of `--onefile`:
+
+```bash
+python -m PyInstaller --windowed --name "PITC-VA-Mailer" --hidden-import tzdata main.py
+```
+
+This creates `dist/PITC-VA-Mailer.app` and a matching launcher binary in `dist/`.
 
 ### Build and package for sharing
 
@@ -130,16 +148,18 @@ bash ./copy_dist_to_pitc_mailer.sh
 
 This script:
 
-- builds `PITC-VA-Mailer.exe`
+- builds a platform-appropriate app bundle
 - creates `PITC-mailer` in the parent `react-csharp-record-manager` folder
 - copies only:
-  - `PITC-VA-Mailer.exe`
+  - `PITC-VA-Mailer.exe` on Windows
+  - `PITC-VA-Mailer.app` and `PITC-VA-Mailer` on macOS
   - `.env-sample`
 
 Final packaged output:
 
-- `../PITC-mailer/PITC-VA-Mailer.exe`
-- `../PITC-mailer/.env-sample`
+- Windows: `../PITC-mailer/PITC-VA-Mailer.exe`
+- macOS: `../PITC-mailer/PITC-VA-Mailer.app` and `../PITC-mailer/PITC-VA-Mailer`
+- `.env-sample`
 
 After packaging, copy `../PITC-mailer/.env-sample` to `../PITC-mailer/.env` and edit the `.env` file before sharing or running the app.
 

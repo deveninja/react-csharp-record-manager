@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import importlib
 import json
 import os
@@ -304,6 +306,8 @@ class MailerApp:
         )
         self._canvas.configure(yscrollcommand=vscroll.set)
         self._canvas.bind_all("<MouseWheel>", self._on_mousewheel)
+        self._canvas.bind_all("<Button-4>", self._on_mousewheel)
+        self._canvas.bind_all("<Button-5>", self._on_mousewheel)
 
         vscroll.pack(side=tk.RIGHT, fill=tk.Y)
         self._canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
@@ -377,7 +381,19 @@ class MailerApp:
             font=("Helvetica", 10),
         ).pack(side=tk.LEFT)
         var = tk.StringVar()
-        entry = ttk.Entry(row, textvariable=var, show=show, font=("Helvetica", 10))
+        entry = tk.Entry(
+            row,
+            textvariable=var,
+            show=show,
+            font=("Helvetica", 10),
+            fg="#0f172a",
+            bg="#ffffff",
+            insertbackground="#0f172a",
+            relief=tk.FLAT,
+            highlightthickness=1,
+            highlightbackground="#cbd5e1",
+            highlightcolor="#0f766e",
+        )
         entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
         return var, entry
 
@@ -395,7 +411,18 @@ class MailerApp:
             font=("Helvetica", 10),
         ).pack(side=tk.LEFT)
         left_var = tk.StringVar()
-        left_entry = ttk.Entry(row, textvariable=left_var, font=("Helvetica", 10))
+        left_entry = tk.Entry(
+            row,
+            textvariable=left_var,
+            font=("Helvetica", 10),
+            fg="#0f172a",
+            bg="#ffffff",
+            insertbackground="#0f172a",
+            relief=tk.FLAT,
+            highlightthickness=1,
+            highlightbackground="#cbd5e1",
+            highlightcolor="#0f766e",
+        )
         left_entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
         tk.Label(
@@ -408,7 +435,18 @@ class MailerApp:
             font=("Helvetica", 10),
         ).pack(side=tk.LEFT, padx=(10, 0))
         right_var = tk.StringVar()
-        right_entry = ttk.Entry(row, textvariable=right_var, font=("Helvetica", 10))
+        right_entry = tk.Entry(
+            row,
+            textvariable=right_var,
+            font=("Helvetica", 10),
+            fg="#0f172a",
+            bg="#ffffff",
+            insertbackground="#0f172a",
+            relief=tk.FLAT,
+            highlightthickness=1,
+            highlightbackground="#cbd5e1",
+            highlightcolor="#0f766e",
+        )
         right_entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
         return left_var, left_entry, right_var, right_entry
@@ -460,7 +498,18 @@ class MailerApp:
             variable.set(entry.get())
             return entry
 
-        entry = ttk.Entry(parent, textvariable=variable, font=("Helvetica", 10))
+        entry = tk.Entry(
+            parent,
+            textvariable=variable,
+            font=("Helvetica", 10),
+            fg="#0f172a",
+            bg="#ffffff",
+            insertbackground="#0f172a",
+            relief=tk.FLAT,
+            highlightthickness=1,
+            highlightbackground="#cbd5e1",
+            highlightcolor="#0f766e",
+        )
         return entry
 
     def _build_settings(self, parent):
@@ -504,7 +553,19 @@ class MailerApp:
             font=("Helvetica", 10),
         ).pack(side=tk.LEFT)
         self._password_var = tk.StringVar()
-        self._password_entry = ttk.Entry(pw_row, textvariable=self._password_var, show="*", font=("Helvetica", 10))
+        self._password_entry = tk.Entry(
+            pw_row,
+            textvariable=self._password_var,
+            show="*",
+            font=("Helvetica", 10),
+            fg="#0f172a",
+            bg="#ffffff",
+            insertbackground="#0f172a",
+            relief=tk.FLAT,
+            highlightthickness=1,
+            highlightbackground="#cbd5e1",
+            highlightcolor="#0f766e",
+        )
         self._password_entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
         ttk.Button(pw_row, text="Show", width=6, command=self._toggle_password).pack(side=tk.LEFT, padx=(4, 0))
 
@@ -602,6 +663,8 @@ class MailerApp:
                 highlightbackground="#cbd5e1",
                 highlightcolor=self.CLR_ACCENT,
                 bg="#f8fafc",
+                fg="#0f172a",
+                insertbackground="#0f172a",
             )
             text_widget.pack(fill=tk.X, padx=12, pady=(0, 10))
             self.answer_widgets[question["key"]] = text_widget
@@ -734,6 +797,8 @@ class MailerApp:
             highlightbackground="#cbd5e1",
             highlightcolor=self.CLR_ACCENT,
             bg="#f8fafc",
+            fg="#0f172a",
+            insertbackground="#0f172a",
         )
         self._invoice_notes.pack(fill=tk.X, padx=12, pady=(0, 10))
 
@@ -812,7 +877,26 @@ class MailerApp:
         self.root.after(60_000, self._schedule_date_refresh)
 
     def _on_mousewheel(self, event):
-        self._canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+        if getattr(event, "num", None) == 4:
+            self._canvas.yview_scroll(-1, "units")
+            return
+
+        if getattr(event, "num", None) == 5:
+            self._canvas.yview_scroll(1, "units")
+            return
+
+        delta = getattr(event, "delta", 0)
+        if delta == 0:
+            return
+
+        if sys.platform == "darwin":
+            step = -1 if delta > 0 else 1
+        else:
+            step = int(-1 * (delta / 120))
+            if step == 0:
+                step = -1 if delta > 0 else 1
+
+        self._canvas.yview_scroll(step, "units")
 
     def _update_mode_view(self):
         self._daily_frame.pack_forget()
