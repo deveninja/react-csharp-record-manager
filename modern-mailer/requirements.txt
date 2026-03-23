@@ -1,0 +1,7 @@
+# Runtime dependencies for modern-mailer (PySide6)
+PySide6
+reportlab
+tzdata
+
+# Optional for packaging
+pyinstaller

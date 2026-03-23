@@ -76,5 +76,13 @@ PITC-mailer/
 PITC-mailer/*.*
 
 # modern-mailer
-modern-mailer/
+modern-mailer/dist/
+modern-mailer/build/
+modern-mailer/.env
+modern-mailer/.env.*
+modern-mailer/..*
+modern-mailer/.venv/
+modern-mailer/.venv*
+modern-mailer/generated-invoices/
+modern-mailer__pycache__/
 .venv/
